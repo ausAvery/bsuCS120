@@ -60,7 +60,15 @@ else:
                     print(f"You're supposed to say '{artWho}'")
         else:
             if answer2 == "who's there?":
-                print(whosThere)
+                print(art)
+                answer3 = input("")
+                if answer3 == "Art who?":
+                    print(r2d2)
+                else:
+                    if answer3 == "art who?":
+                        print(r2d2)
+                    else:
+                        print(f"You're supposed to say '{artWho}'")
             else:
                 print(f"You're supposed to say '{whosThere}'")
     else:
