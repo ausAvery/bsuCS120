@@ -12,8 +12,12 @@ Learning how GitHub works
 * four
 * five
 
-### What does 3 pounds do?
+### Look, we can make sub-lists
 
 * one
 * two
-* three?
+* three
+
+# Test
+
+Hello, my name is Austin. Check out some of my code, I’m open to new tips/tricks
