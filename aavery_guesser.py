@@ -7,7 +7,7 @@ import random
 attempts = 0
 keepGoing = True
 correct = random.randint(1,100)
-print(correct) # for testing purposes
+#print(correct) # for testing purposes
 print("***  INSTRUCTIONS    ***")
 print("The computer will think of a number between 1-100.")
 print("It is your job to guess it correctly.")
@@ -22,9 +22,9 @@ while keepGoing:
         guess = int(guess)
         if guess < correct:
             print("Too low.")
-        if guess > correct:
+        elif guess > correct:
             print("Too high.")
-        if guess == correct:
+        elif guess == correct:
             print(f"Congratulations! {guess} was correct!")
             keepGoing = False
         else:
