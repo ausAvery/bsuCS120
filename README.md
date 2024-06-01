@@ -19,5 +19,3 @@ Learning how GitHub works
 * three
 
 # Test
-
-Hello, my name is Austin. Check out some of my code, I’m open to new tips/tricks
