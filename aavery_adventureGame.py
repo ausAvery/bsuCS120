@@ -40,7 +40,7 @@ def main():
     currentNode = "start"
 
     while keepGoing:
-        print(game[currentNode])
+#        print(game[currentNode])
         
         if currentNode == "quit":
             keepGoing = False
