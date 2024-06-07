@@ -23,7 +23,7 @@
 
 """
 
-import pygame, math, time
+import pygame, math, time, sys #sys imported to help quit pygame window
 pygame.init()
 pygame.mixer.init()
 
@@ -1493,3 +1493,7 @@ if __name__ == "__main__":
         
     game = Scene()
     game.start()
+    
+    # helps close pygame window
+    sys.exit()
+    pygame.quit()
