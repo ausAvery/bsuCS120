@@ -6,7 +6,7 @@ import pygame, simpleGE, random, sys
     Austin Avery
 """
 
-# NOTE: Default screen size is 640 by 480
+# NOTE TO SELF: Default gameplay screen size is 640 by 480
 
 class Intro(simpleGE.Scene):
     def __init__(self):
@@ -43,14 +43,14 @@ class Intro(simpleGE.Scene):
                         self.btnQuit,
                         self.lblScore]
         
-        def processEvent(self):
-            if self.btnPlay.clicked:
-                self.response = "Play"
-                self.stop()
+    def process(self):
+        if self.btnPlay.clicked:
+            self.response = "Play"
+            self.stop()
         
-            if self.btnQuit.clicked:
-                self.response = "Quit"
-                self.stop()      
+        if self.btnQuit.clicked:
+            self.response = "Quit"
+            self.stop()      
 
 class Game(simpleGE.Scene):
     def __init__(self):
@@ -161,9 +161,6 @@ class LblLives(simpleGE.Label):
         
 def main():
     keepGoing = True
-    game = Game()
-    game.start()
-
     while keepGoing:
         intro = Intro()
         intro.start()
