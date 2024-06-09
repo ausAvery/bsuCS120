@@ -9,11 +9,10 @@ import pygame, simpleGE, random, sys
 # NOTE TO SELF: Default gameplay screen size is 640 by 480
 
 class Intro(simpleGE.Scene):
-    def __init__(self):
+    def __init__(self, response):
         super().__init__()
         
         self.setImage("lavaOcean.jpg")
-        self.response = "Quit"
         
         self.lblInstructions = simpleGE.MultiLabel()
         self.lblInstructions.textLines = [
@@ -50,7 +49,7 @@ class Intro(simpleGE.Scene):
         
         if self.btnQuit.clicked:
             self.response = "Quit"
-            self.stop()      
+            self.stop()
 
 class Game(simpleGE.Scene):
     def __init__(self):
@@ -161,8 +160,10 @@ class LblLives(simpleGE.Label):
         
 def main():
     keepGoing = True
+    response = "Quit"
+    
     while keepGoing:
-        intro = Intro()
+        intro = Intro(response)
         intro.start()
         if intro.response == "Play":    
             game = Game()
