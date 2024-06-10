@@ -34,6 +34,7 @@ class Intro(simpleGE.Scene):
         self.btnQuit.center = (540, 420)
         
         self.lblScore = simpleGE.Label()
+        #self.lastScore = LblScore(lastScore)
         self.lblScore.text = f"Last score: 0"
         self.lblScore.center = (320, 420)  
         
@@ -136,6 +137,7 @@ class LblScore(simpleGE.Label):
         
     def process(self):
         self.text = f"Score: {self.score.getElapsedTime():.0f}"
+        self.lastScore = self.text
         
 class LblTimer(simpleGE.Label):
     def __init__(self):
