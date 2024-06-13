@@ -22,8 +22,8 @@
     Add size as optional parameter in Scene constructor    
 
 """
-
-import pygame, math, time, sys #sys imported to help quit pygame window
+# sys imported to help quit pygame window
+import pygame, math, time, sys
 pygame.init()
 pygame.mixer.init()
 
