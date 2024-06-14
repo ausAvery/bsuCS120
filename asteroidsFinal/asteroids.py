@@ -15,9 +15,13 @@ class StartMenu(simpleGE.Scene):
         
         self.screen = pygame.display.set_mode(size)
         self.background = pygame.Surface(self.screen.get_size())
-        self.setCaption("Asteroids --Start Menu--")
+        self.setCaption("--Start Menu--")
+        
+        self.response = "Quit"
         
         self.instructions = simpleGE.MultiLabel()
+        self.instructions.center = (360, 180)
+        self.instructions.size = (500, 200)
         self.instructions.textLines = [
             "Use the UP arrow to accelerate.",
             "Use the Left & Right arrows to rotate your ship.",
@@ -26,10 +30,36 @@ class StartMenu(simpleGE.Scene):
             "Dodge them at all costs to stay alive.",
             "Good luck! :)"
             ]
-        self.instructions.center = (360, 180)
-        self.instructions.size = (500, 200)
         
-        self.sprites = [self.instructions]
+        self.lblScore = simpleGE.Label()
+        self.lblScore.center = (360, 350)
+#         self.lblScore.bgColor = "white"
+#         self.lblScore.fgColor = "black"
+        self.lblScore.size = (300, 30)
+        self.score = Game()
+        self.lblScore.text = f"Previous Score: {self.score.score}"
+        
+        self.btnPlay = simpleGE.Button()
+        self.btnPlay.center = (100, 400)
+        self.btnPlay.text = "Play"
+        
+        self.btnQuit = simpleGE.Button()
+        self.btnQuit.center = (620, 400)
+        self.btnQuit.text = "Quit"
+        
+        self.sprites = [self.instructions,
+                        self.btnPlay,
+                        self.btnQuit,
+                        self.lblScore]
+        
+    def process(self):
+        
+        if self.btnPlay.clicked:
+            self.response = "Play"
+            self.stop()
+        if self.btnQuit.clicked:
+            self.response = "Quit"
+            self.stop()
 
 class Game(simpleGE.Scene):
     
@@ -212,11 +242,21 @@ class LblLives(simpleGE.Label):
 #                     self.stop()
         
 def main():
-    startMenu = StartMenu()
-    startMenu.start()
     
-    game = Game()
-    game.start()
+    keepGoing = True
+    
+    while keepGoing:
+        startMenu = StartMenu()
+        startMenu.start()
+        
+        if startMenu.response == "Quit":
+            startMenu.stop()
+            keepGoing = False
+        else:
+            if startMenu.response == "Play":
+                startMenu.stop()
+                game = Game()
+                game.start()
 
 if __name__ == "__main__":
     main()
