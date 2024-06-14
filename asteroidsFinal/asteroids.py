@@ -89,7 +89,6 @@ class Game(simpleGE.Scene):
         self.sndExplosion = simpleGE.Sound("explosion.ogg")
         self.sndCrash = simpleGE.Sound("crash.ogg")
 
-        #what i think bullet will become
         self.bullet = 0
         self.bullets = []
         self.numBullets = 100
@@ -178,6 +177,7 @@ class AsteroidLg(simpleGE.Sprite):
             self.reset()
     
     def reset(self):
+        
         """ spawn asteroid """
         x = random.randint(0, self.screen.get_width())
         y = random.randint(0, self.screen.get_height())
@@ -188,6 +188,7 @@ class AsteroidLg(simpleGE.Sprite):
         self.moveAngle = random.randint(1, 359)
     
     def process(self):
+        
         """ prevent non-moving asteroid """
         if self.speed == 0:
             self.reset()
@@ -212,18 +213,16 @@ class AsteroidSm(simpleGE.Sprite):
 class Bullet(simpleGE.Sprite):
     
     def __init__(self, scene, parent):
+        
         super().__init__(scene)
         self.parent = parent
         
-#         self.setImage("bullet.png")
-#         self.setSize(100, 100)
         self.colorRect("sky blue", (8,3))
         self.boundAction = self.HIDE
-#         self.setBoundAction(self.HIDE)
         self.hide()
         
     def fire(self):
-#         if not self.visible:
+        
         self.show()
         self.position = self.parent.position
         self.imageAngle = self.parent.imageAngle
@@ -231,6 +230,7 @@ class Bullet(simpleGE.Sprite):
         self.speed = 15
     
     def reset(self):
+        
         self.boundAction = self.HIDE
         self.hide()
 
