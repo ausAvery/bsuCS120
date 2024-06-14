@@ -10,7 +10,7 @@ import pygame, simpleGE, random, sys
 
 class StartMenu(simpleGE.Scene):
     
-    def __init__(self, size = (720, 480)):
+    def __init__(self, score, size = (720, 480)):
         super().__init__()
         
         self.screen = pygame.display.set_mode(size)
@@ -23,11 +23,11 @@ class StartMenu(simpleGE.Scene):
         self.instructions.center = (360, 180)
         self.instructions.size = (500, 200)
         self.instructions.textLines = [
-            "Use the UP arrow to accelerate.",
+            "Use the UP arrow to engage thrusters.",
             "Use the Left & Right arrows to rotate your ship.",
             "Use the SPACEBAR to shoot.",
             "Shoot the asteroids to destroy them...",
-            "Dodge them at all costs to stay alive.",
+            "dodge them at all costs to stay alive.",
             "Good luck! :)"
             ]
         
@@ -36,8 +36,8 @@ class StartMenu(simpleGE.Scene):
 #         self.lblScore.bgColor = "white"
 #         self.lblScore.fgColor = "black"
         self.lblScore.size = (300, 30)
-        self.score = Game()
-        self.lblScore.text = f"Previous Score: {self.score.score}"
+        self.score = score
+        self.lblScore.text = f"Previous Score: {self.score}"
         
         self.btnPlay = simpleGE.Button()
         self.btnPlay.center = (100, 400)
@@ -78,15 +78,16 @@ class Game(simpleGE.Scene):
         
         self.spaceship = Spaceship(self)
 
-#         self.asteroidLg = AsteroidLg(self)
         self.lgAsteroids = []
-        self.numLgAsteroids = 3
+        self.numLgAsteroids = 4
         for i in range(self.numLgAsteroids):
             self.lgAsteroids.append(AsteroidLg(self))
         
         self.asteroidSm = AsteroidSm(self)
         
-#         self.bullet = Bullet(self, self.spaceship)
+        self.sndLaser = simpleGE.Sound("laser.ogg")
+        self.sndExplosion = simpleGE.Sound("explosion.ogg")
+        self.sndCrash = simpleGE.Sound("crash.ogg")
 
         #what i think bullet will become
         self.bullet = 0
@@ -107,28 +108,32 @@ class Game(simpleGE.Scene):
         """ shoot bullet from spaceship """
         if self.isKeyPressed(pygame.K_SPACE):
             self.bullet += 1
+            self.sndLaser.play()
             if self.bullet >= self.numBullets:
                 self.bullet = 0
             self.bullets[self.bullet].fire()
             
     def process(self):
         
-        """ easter egg """
-        if self.isKeyPressed(pygame.K_s):
-            self.bullet += 1
-            if self.bullet >= self.numBullets:
-                self.bullet = 0
-            self.bullets[self.bullet].fire()
+#         """ easter egg """
+#         if self.isKeyPressed(pygame.K_s):
+#             self.bullet += 1
+#             self.sndLaser.play()
+#             if self.bullet >= self.numBullets:
+#                 self.bullet = 0
+#             self.bullets[self.bullet].fire()
             
-        """ check for collision between bullet and asteroid """
+        """ check for collisions """
         for asteroid in self.lgAsteroids:
             if self.bullets[self.bullet].collidesWith(asteroid):
                 self.bullets[self.bullet].reset()
+                self.sndExplosion.play()
                 asteroid.reset()
                 self.score += 50
                 self.lblScore.text = f"Score: {self.score}"
             if asteroid.collidesWith(self.spaceship):
                 asteroid.reset()
+                self.sndCrash.play()
                 self.lives -= 1
                 self.lblLives.text = f"Lives: {self.lives}"
                 if self.lives == 0:
@@ -148,7 +153,7 @@ class Spaceship(simpleGE.Sprite):
 
     def process(self):
         
-        # motion for spaceship
+        """ motion for spaceship """
         if self.isKeyPressed(pygame.K_LEFT):
             self.imageAngle += 5
         if self.isKeyPressed(pygame.K_RIGHT):
@@ -163,14 +168,29 @@ class AsteroidLg(simpleGE.Sprite):
         
         self.setImage("asteroidLg.png")
         self.setSize(100, 80)
+        
         self.reset()
+        
+        """ prevent asteroid from spawning on spaceship """
+        self.center = (360, 240)
+        
+        if self.distanceTo(self.center) <= 100:
+            self.reset()
     
     def reset(self):
+        """ spawn asteroid """
         x = random.randint(0, self.screen.get_width())
         y = random.randint(0, self.screen.get_height())
         self.position = (x, y)
-        self.dx = random.randint(-4, 4)
-        self.dy = random.randint(-4, 4)
+        self.minSpeed = -4
+        self.maxSpeed = 4
+        self.speed = random.randint(self.minSpeed, self.maxSpeed)
+        self.moveAngle = random.randint(1, 359)
+    
+    def process(self):
+        """ prevent non-moving asteroid """
+        if self.speed == 0:
+            self.reset()
 
 class AsteroidSm(simpleGE.Sprite):
     
@@ -232,7 +252,7 @@ class LblLives(simpleGE.Label):
         self.clearBack = True
         self.text = "Lives: 5"
         
-        """ use spaceship sprite as lives??? """
+#         """ use spaceship sprite as lives??? """
 #         self.lives = Spaceship(self)        
 #         self.livesRemaining = []
         
@@ -244,19 +264,20 @@ class LblLives(simpleGE.Label):
 def main():
     
     keepGoing = True
+    score = 0
     
     while keepGoing:
-        startMenu = StartMenu()
+        startMenu = StartMenu(score)
         startMenu.start()
         
-        if startMenu.response == "Quit":
-            startMenu.stop()
-            keepGoing = False
+        if startMenu.response == "Play":
+            game = Game()
+            game.start()
+            score = game.score
         else:
-            if startMenu.response == "Play":
+            if startMenu.response == "Quit":
                 startMenu.stop()
-                game = Game()
-                game.start()
+                keepGoing = False
 
 if __name__ == "__main__":
     main()
