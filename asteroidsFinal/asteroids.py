@@ -146,7 +146,7 @@ class Spaceship(simpleGE.Sprite):
         
         self.setImage("spaceship.png")
         self.position = (360, 240)
-        self.setSize(50,30)
+        self.setSize(30, 40)
         self.imageAngle = 90
         self.drag = .05
         self.accel = .2
