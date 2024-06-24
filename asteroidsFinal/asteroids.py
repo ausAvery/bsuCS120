@@ -114,29 +114,30 @@ class Game(simpleGE.Scene):
             
     def process(self):
         
-#         """ easter egg """
-#         if self.isKeyPressed(pygame.K_s):
-#             self.bullet += 1
-#             self.sndLaser.play()
-#             if self.bullet >= self.numBullets:
-#                 self.bullet = 0
-#             self.bullets[self.bullet].fire()
+        """ easter egg """
+        if self.isKeyPressed(pygame.K_s):
+            self.bullet += 1
+            self.sndLaser.play()
+            if self.bullet >= self.numBullets:
+                self.bullet = 0
+            self.bullets[self.bullet].fire()
             
         """ check for collisions """
         for asteroid in self.lgAsteroids:
-            if self.bullets[self.bullet].collidesWith(asteroid):
-                self.bullets[self.bullet].reset()
-                self.sndExplosion.play()
-                asteroid.reset()
-                self.score += 50
-                self.lblScore.text = f"Score: {self.score}"
-            if asteroid.collidesWith(self.spaceship):
-                asteroid.reset()
-                self.sndCrash.play()
-                self.lives -= 1
-                self.lblLives.text = f"Lives: {self.lives}"
-                if self.lives == 0:
-                    self.stop()
+            for bullet in self.bullets:
+                if bullet.collidesWith(asteroid):
+                    self.bullets[self.bullet].reset()
+                    self.sndExplosion.play()
+                    asteroid.reset()
+                    self.score += 50
+                    self.lblScore.text = f"Score: {self.score}"
+                if asteroid.collidesWith(self.spaceship):
+                    asteroid.reset()
+                    self.sndCrash.play()
+                    self.lives -= 1
+                    self.lblLives.text = f"Lives: {self.lives}"
+                    if self.lives == 0:
+                        self.stop()
 
 class Spaceship(simpleGE.Sprite):
     
