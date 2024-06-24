@@ -4,7 +4,7 @@ Asteroids.py
 
 ## Project summary
 
-Asteroids.py will be a basic 2D animated game. The overall premise is to fly your spaceship around and destroy asteroids.
+Asteroids.py is a basic 2D animated game. The overall premise is to fly your spaceship around and destroy asteroids.
 
 ### Instructions
 * Use the UP arrow to engage thrusters
