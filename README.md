@@ -1,21 +1,16 @@
 # bsuCS120
 
-Mad Lib assignment for BSU Course CS120
+Python assignments for BSU Course CS120
 
-Learning how GitHub works
+Learning GitHub writing and formatting syntax works for README.md
 
-## Look, we can make lists
-
-* one
-* two
-* three
-* four
-* five
-
-### Look, we can make sub-lists
+## Second-level heading
 
 * one
 * two
 * three
 
-# Test
+### Third-level heading
+
+* **This is bold text**
+* *This is italicized text*
